@@ -1,4 +1,13 @@
-unit MainForm;
+UNIT MainForm;
+
+{=============================================================================================================
+   www.GabrielMoraru.com
+   2025.10
+   Github.com/GabrielOnDelphi/Delphi-LightSaber/blob/main/System/Copyright.txt
+--------------------------------------------------------------------------------------------------------------
+   A FMX program that shows how to take snapshots with the video camera.
+   Works on Win, Android and Mac!
+=============================================================================================================}
 
 INTERFACE
 
@@ -48,7 +57,7 @@ IMPLEMENTATION
 
 
 {-------------------------------------------------------------------------------------------------------------
-   SERVICE
+   Via SERVICE
    Does not work on Windows.
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.btnServiceClick(Sender: TObject);
@@ -94,7 +103,7 @@ end;
 
 
 {-------------------------------------------------------------------------------------------------------------
-   ACTION
+   Via ACTION
    Does not work on Windows.
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.btnActionClick(Sender: TObject);
@@ -131,7 +140,7 @@ end;
 
 
 {-------------------------------------------------------------------------------------------------------------
-   TCameraComponent
+   Via TCameraComponent
    Works on Windows!
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.chkActivateChange(Sender: TObject);
