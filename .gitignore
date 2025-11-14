@@ -8,3 +8,5 @@ AndroidManifest.template.xml
 *.dsv
 *.deployproj
 /Win32
+/__recovery
+ai.pas
