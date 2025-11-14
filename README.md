@@ -1,2 +1,4 @@
 # Demo-Take-Photo-FMX
-A program that shows how to take snapshots with the video camers on Win, Android and Mac
+An FMX program that shows how to take snapshots with the video camera.  
+The code was tested on Win and Android. It should also work on Mac.  
+The code is analyzed in the "Delphi in All Its Glory" book.  
