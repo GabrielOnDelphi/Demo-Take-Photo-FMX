@@ -4,3 +4,7 @@ Embarcadero example 1 (works).lnk
 *.res
 *.dsk
 AndroidManifest.template.xml
+*.local
+*.dsv
+*.deployproj
+/Win32

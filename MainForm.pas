@@ -12,10 +12,13 @@ UNIT MainForm;
 INTERFACE
 
 USES
-  System.SysUtils, System.Types, System.UITypes, System.Classes,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls, FMX.Layouts, FMX.Controls.Presentation, FMX.Objects, FMX.Platform, FMX.DialogService, FMX.Media, FMX.MediaLibrary, FMX.ActnList, FMX.StdActns, FMX.MediaLibrary.Actions,
-  System.Permissions, System.IOUtils, System.Actions,
-  Androidapi.Helpers, Androidapi.JNI.Os, Androidapi.JNI.JavaTypes;
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Permissions, System.Actions,
+  {$IFDEF ANDROID}
+    Androidapi.Helpers, Androidapi.JNI.Os, Androidapi.JNI.JavaTypes,
+  {$ELSE}{$ENDIF}
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls, FMX.Layouts, FMX.Controls.Presentation,
+  FMX.Objects, FMX.Platform, FMX.DialogService, FMX.Media, FMX.MediaLibrary, FMX.ActnList, FMX.StdActns, FMX.MediaLibrary.Actions,
+  System.IOUtils;
 
 TYPE
   TfrmCamCapture = class(TForm)
@@ -59,6 +62,7 @@ IMPLEMENTATION
 {-------------------------------------------------------------------------------------------------------------
    Via SERVICE
    Does not work on Windows.
+   docwiki.embarcadero.com/RADStudio/Florence/en/Taking_Pictures_Using_FireMonkey_Interfaces
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.btnServiceClick(Sender: TObject);
 begin
@@ -175,8 +179,6 @@ end;
 
 
 procedure TfrmCamCapture.SavePhoto;
-VAR
-  FilePath: string;
 begin
   if imgPreview.Bitmap.IsEmpty then
   begin
@@ -184,8 +186,8 @@ begin
     Exit;
   end;
 
-  imgPreview.Bitmap.SaveToFile(FilePath);
-  Label1.Text:= 'Saved to: ' + FilePath;
+  imgPreview.Bitmap.SaveToFile(GetSaveName);
+  Label1.Text:= 'Saved to: ' + GetSaveName;
 end;
 
 
