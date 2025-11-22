@@ -156,7 +156,6 @@ end;
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.chkActivateChange(Sender: TObject);
 begin
-  // Start the camera for live preview
   CameraComp.Quality:= TVideoCaptureQuality.HighQuality;
   CameraComp.Active := chkActivate.IsChecked;
 end;
