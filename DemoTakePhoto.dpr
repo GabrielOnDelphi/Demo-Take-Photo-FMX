@@ -3,7 +3,8 @@ program DemoTakePhoto;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  MainForm in 'MainForm.pas' {frmCamCapture};
+  FormCamera in 'FormCamera.pas' {frmCamCapture},
+  CamUtils in 'CamUtils.pas';
 
 {$R *.res}
 
