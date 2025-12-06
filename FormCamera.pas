@@ -17,7 +17,7 @@ USES
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Permissions, System.Actions,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls, FMX.Layouts, FMX.Controls.Presentation,
   FMX.Objects, FMX.Platform, FMX.DialogService, FMX.Media, FMX.MediaLibrary, FMX.ActnList, FMX.StdActns, FMX.MediaLibrary.Actions,
-  System.IOUtils, Camutils;
+  System.IOUtils;
 
 TYPE
   TfrmCamCapture = class(TForm)
@@ -32,7 +32,10 @@ TYPE
     btnService: TButton;
     btnAction: TButton;
     btnComponent: TButton;
-    btnLoadImage: TButton;
+    btnSelectImage: TButton;
+    Layout3: TLayout;
+    btnSaveLocal: TButton;
+    Button1: TButton;
     procedure btnServiceClick  (Sender: TObject);
     procedure btnActionClick   (Sender: TObject);
     procedure btnComponentClick(Sender: TObject);
@@ -40,13 +43,15 @@ TYPE
     procedure chkActivateChange(Sender: TObject);
     procedure PhotoFinishTaking(BMP: TBitmap);
     procedure DoDidFinish      (BMP: TBitmap);
-    procedure btnLoadImageClick(Sender: TObject);
+    procedure btnSelectImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnSaveLocalClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     procedure DisplayCameraPreview;
     procedure TakePhotoAfterPermission_A;
     procedure TakePhotoAfterPermission_B;
-    procedure SaveImage(BMP: TBitmap);
+    procedure SaveToPublicGallery(BMP: TBitmap);
     procedure ProcessImage(const Path: string);
   public
   end;
@@ -55,22 +60,38 @@ VAR
   frmCamCapture: TfrmCamCapture;
 
 
-IMPLEMENTATION
-{$R *.fmx}
+IMPLEMENTATION {$R *.fmx}
+
+USES 
+  LightFmx.Common.CamUtils, LightFmx.Graph;
+
+
+
+
+procedure TfrmCamCapture.FormCreate(Sender: TObject);
+begin
+  {$IFDEF ANDROID}
+    SetupImagePickerCallback(ProcessImage);  // Set call back
+  {$ELSE}
+  {$ENDIF}
+end;
 
 
 procedure TfrmCamCapture.ProcessImage(const Path: string);
 begin
-  if not Path.IsEmpty then Label1.Text := Path;
+  if not Path.IsEmpty then 
+  begin
+    // Use the LoadImage utility which handles errors safely
+    LightFmx.Graph.LoadImage(Path, imgPreview);
+    Label1.Text:= 'Loaded from: ' + Path;
+  end;
 end;
 
-procedure TfrmCamCapture.FormCreate(Sender: TObject);
-begin
-  SetupImagePickerCallback(ProcessImage);
-end;
 
-
-
+{-------------------------------------------------------------------------------------------------------------
+   Via IFMXCameraService
+   Does not work on Windows.
+-------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.btnServiceClick(Sender: TObject);
 begin
   Label1.Text:= '';
@@ -100,7 +121,7 @@ end;
 procedure TfrmCamCapture.DoDidFinish(BMP: TBitmap);
 begin
   imgPreview.Bitmap.Assign(BMP);
-  SaveImage(BMP);
+  SaveToPublicGallery(BMP);
 end;
 
 
@@ -126,7 +147,7 @@ end;
 procedure TfrmCamCapture.PhotoFinishTaking(BMP: TBitmap);
 begin
   imgPreview.Bitmap.Assign(BMP);
-  SaveImage(BMP);
+  SaveToPublicGallery(BMP);
 end;
 
 
@@ -134,7 +155,7 @@ end;
 
 
 {-------------------------------------------------------------------------------------------------------------
-   Via TCameraComponent
+   Via TCameraComponent (Live View)
    Works on Windows!
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.chkActivateChange(Sender: TObject);
@@ -150,21 +171,16 @@ begin
   if imgPreview.Bitmap.IsEmpty
   then TDialogService.ShowMessage('No image to save! Ensure the camera is active.')
   else
-    begin
-      SaveImage(imgPreview.Bitmap);
-      Label1.Text:= 'Saved to: ' + GetSaveName;
-    end;
+  begin
+    SaveToPublicGallery(imgPreview.Bitmap);
+  end;
 end;
 
 
 procedure TfrmCamCapture.SampleBufferReady(Sender: TObject; const ATime: TMediaTime);
 begin
   // Sync to main thread to update the preview image
-  TThread.Synchronize(TThread.Current,
-      procedure
-      begin
-        DisplayCameraPreview;
-      end);
+  TThread.Synchronize(TThread.Current, DisplayCameraPreview);
 end;
 
 
@@ -174,20 +190,30 @@ begin
 end;
 
 
-procedure TfrmCamCapture.SaveImage(BMP: TBitmap);
+
+{-------------------------------------------------------------------------------------------------------------
+   SAVING LOGIC (Public Gallery)
+-------------------------------------------------------------------------------------------------------------}
+procedure TfrmCamCapture.SaveToPublicGallery(BMP: TBitmap);
 begin
   {$IFDEF ANDROID}
     AddToPhotosAlbum(BMP);
+    Label1.Text:= 'Saved to Gallery';
   {$ELSE}
-    BMP.SaveToFile(GetSaveName);
-    Label1.Text:= 'Saved to: ' + GetSaveName;
+    var Fn := GetNewTimestampFileName(GetPublicPicturesFolder);
+    BMP.SaveToFile(Fn);
+    Label1.Text:= 'Saved to: ' + Fn;
   {$ENDIF}
-  //ToDo: mac
 end;
 
 
-procedure TfrmCamCapture.btnLoadImageClick(Sender: TObject);
+
+{-------------------------------------------------------------------------------------------------------------
+   LOAD IMAGES FROM GALLERY
+-------------------------------------------------------------------------------------------------------------}
+procedure TfrmCamCapture.btnSelectImageClick(Sender: TObject);
 begin
+  // Open the Android "Gallery" and let user select a photo.
   RequestStorageReadPermission(
         procedure
         begin
@@ -195,5 +221,79 @@ begin
         end);
 end;
 
+
+{-------------------------------------------------------------------------------------------------------------
+   TEST: SAVE LOCAL & RELOAD
+   This satisfies the requirement: "save it in a applications specific folder... Load... show it"
+-------------------------------------------------------------------------------------------------------------}
+procedure TfrmCamCapture.btnSaveLocalClick(Sender: TObject);
+var
+  TempBMP: TBitmap;
+  SavePath: string;
+begin
+  // Get Snapshot
+  TempBMP := TBitmap.Create;
+  try
+    if CameraComp.Active
+    then CameraComp.SampleBufferToBitmap(TempBMP, True)
+    else
+      if not imgPreview.Bitmap.IsEmpty
+      then TempBMP.Assign(imgPreview.Bitmap)
+      else
+        begin
+          TDialogService.ShowMessage('Start the camera (Checkbox) first to take a snapshot.');
+          Exit;
+        end;
+
+    // Generate a filename in INTERNAL storage (No permissions needed)
+    SavePath := IncludeTrailingPathDelimiter(GetInternalDataFolder)+ 'MyPhoto.jpg'; // GetNewTimestampFileName(GetInternalDataFolder);
+
+    // Save
+    try
+      // SaveToFile calls TBitmapCodecManager. The manager looks at the file extension you provided (.jpg).
+      TempBMP.SaveToFile(SavePath);
+    except
+      on E: Exception do
+      begin
+        TDialogService.ShowMessage('Save Failed: ' + E.Message);
+        Exit;
+      end;
+    end;
+
+    // Clear Preview to prove we are reloading
+    imgPreview.Bitmap.Clear(TAlphaColorRec.Null);
+    Label1.Text := 'Cleared...';
+    Application.ProcessMessages;
+    Sleep(700); // Tiny pause for visual confirmation (optional)
+
+    // Load back from disk
+    // Using your LightFmx.Graph.LoadImage which calls CreateFromFile
+    LightFmx.Graph.LoadImage(SavePath, imgPreview);
+
+    Label1.Text := 'Reloaded: ' + SavePath;
+  finally
+    TempBMP.Free;
+  end;
+end;
+
+
+procedure TfrmCamCapture.Button1Click(Sender: TObject);
+var
+  SavePath: string;
+begin
+  SavePath := IncludeTrailingPathDelimiter(GetInternalDataFolder)+ 'MyPhoto.jpg'; // GetNewTimestampFileName(GetInternalDataFolder);
+
+  // Clear Preview to prove we are reloading
+  imgPreview.Bitmap.Clear(TAlphaColorRec.Null);
+  Label1.Text := 'Cleared...';
+  Application.ProcessMessages;
+  Sleep(700); // Tiny pause for visual confirmation (optional)
+
+  // Load back from disk
+  // Using your LightFmx.Graph.LoadImage which calls CreateFromFile
+  LightFmx.Graph.LoadImage(SavePath, imgPreview);
+
+  Label1.Text := 'Loaded: ' + SavePath;
+end;
 
 end.

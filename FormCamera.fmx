@@ -2,7 +2,7 @@ object frmCamCapture: TfrmCamCapture
   Left = 0
   Top = 0
   Caption = 'Camera test'
-  ClientHeight = 488
+  ClientHeight = 497
   ClientWidth = 380
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -19,7 +19,7 @@ object frmCamCapture: TfrmCamCapture
     Margins.Right = 2.000000000000000000
     Margins.Bottom = 2.000000000000000000
     Size.Width = 376.000000000000000000
-    Size.Height = 370.000000000000000000
+    Size.Height = 318.000000000000000000
     Size.PlatformDefault = False
   end
   object Label1: TLabel
@@ -29,7 +29,7 @@ object frmCamCapture: TfrmCamCapture
     Size.Height = 16.000000000000000000
     Size.PlatformDefault = False
     Text = 'Video camera capture demo'
-    TabOrder = 4
+    TabOrder = 9
   end
   object CameraComp: TCameraComponent
     OnSampleBufferReady = SampleBufferReady
@@ -38,11 +38,11 @@ object frmCamCapture: TfrmCamCapture
   end
   object Layout1: TLayout
     Align = Bottom
-    Position.Y = 390.000000000000000000
+    Position.Y = 391.000000000000000000
     Size.Width = 380.000000000000000000
-    Size.Height = 50.000000000000000000
+    Size.Height = 54.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 2
+    TabOrder = 7
     object btnService: TButton
       Align = Left
       CanFocus = False
@@ -53,10 +53,10 @@ object frmCamCapture: TfrmCamCapture
       Position.X = 3.000000000000000000
       Position.Y = 3.000000000000000000
       Size.Width = 174.000000000000000000
-      Size.Height = 44.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
-      Text = 'Use'#13#10'IFMXCameraService'
+      Text = 'IFMXCameraService'
       OnClick = btnServiceClick
     end
     object btnAction: TButton
@@ -69,26 +69,32 @@ object frmCamCapture: TfrmCamCapture
       Position.X = 203.000000000000000000
       Position.Y = 3.000000000000000000
       Size.Width = 174.000000000000000000
-      Size.Height = 44.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      Text = 'Use'#13#10'TTakePhotoFromCameraAction'
+      Text = 'TTakePhotoFromCameraAction'
       OnClick = btnActionClick
     end
   end
   object Layout2: TLayout
     Align = Bottom
-    Position.Y = 440.000000000000000000
+    Position.Y = 445.000000000000000000
     Size.Width = 380.000000000000000000
-    Size.Height = 48.000000000000000000
+    Size.Height = 52.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object chkActivate: TCheckBox
       Align = Left
-      Size.Width = 81.000000000000000000
-      Size.Height = 48.000000000000000000
+      Margins.Left = 3.000000000000000000
+      Margins.Top = 3.000000000000000000
+      Margins.Right = 8.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 72.000000000000000000
+      Size.Height = 46.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 0
+      TabOrder = 2
       Text = 'Activate'
       OnChange = chkActivateChange
     end
@@ -99,16 +105,56 @@ object frmCamCapture: TfrmCamCapture
       Margins.Top = 3.000000000000000000
       Margins.Right = 3.000000000000000000
       Margins.Bottom = 3.000000000000000000
-      Position.X = 84.000000000000000000
+      Position.X = 86.000000000000000000
       Position.Y = 3.000000000000000000
-      Size.Width = 134.000000000000000000
-      Size.Height = 42.000000000000000000
+      Size.Width = 107.000000000000000000
+      Size.Height = 46.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
-      Text = 'Use'#13#10'TCameraComponent'
+      TabOrder = 3
+      Text = 'TCameraComponent'
       OnClick = btnComponentClick
     end
-    object btnLoadImage: TButton
+    object btnSaveLocal: TButton
+      Align = Left
+      CanFocus = False
+      Margins.Left = 3.000000000000000000
+      Margins.Top = 3.000000000000000000
+      Margins.Right = 3.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 199.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 96.000000000000000000
+      Size.Height = 46.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Save local'
+      OnClick = btnSaveLocalClick
+    end
+    object Button1: TButton
+      Align = Left
+      CanFocus = False
+      Margins.Left = 3.000000000000000000
+      Margins.Top = 3.000000000000000000
+      Margins.Right = 3.000000000000000000
+      Margins.Bottom = 3.000000000000000000
+      Position.X = 301.000000000000000000
+      Position.Y = 3.000000000000000000
+      Size.Width = 76.000000000000000000
+      Size.Height = 46.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Load local'
+      OnClick = Button1Click
+    end
+  end
+  object Layout3: TLayout
+    Align = Top
+    Position.Y = 16.000000000000000000
+    Size.Width = 380.000000000000000000
+    Size.Height = 53.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    object btnSelectImage: TButton
       Align = Right
       CanFocus = False
       Margins.Left = 3.000000000000000000
@@ -118,11 +164,11 @@ object frmCamCapture: TfrmCamCapture
       Position.X = 243.000000000000000000
       Position.Y = 3.000000000000000000
       Size.Width = 134.000000000000000000
-      Size.Height = 42.000000000000000000
+      Size.Height = 47.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 1
-      Text = 'Load image'
-      OnClick = btnLoadImageClick
+      TabOrder = 0
+      Text = 'Select from Gallery'
+      OnClick = btnSelectImageClick
     end
   end
   object ActionList: TActionList

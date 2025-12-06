@@ -4,7 +4,8 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   FormCamera in 'FormCamera.pas' {frmCamCapture},
-  CamUtils in 'CamUtils.pas';
+  LightFmx.Common.CamUtils in '..\..\LightSaber\FrameFMX\LightFmx.Common.CamUtils.pas',
+  LightFmx.Graph in '..\..\LightSaber\FrameFMX\LightFmx.Graph.pas';
 
 {$R *.res}
 
