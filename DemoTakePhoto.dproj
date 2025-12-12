@@ -5,10 +5,11 @@
         <Config Condition="'$(Config)'==''">Debug</Config>
         <FrameworkType>FMX</FrameworkType>
         <MainSource>DemoTakePhoto.dpr</MainSource>
-        <Platform Condition="'$(Platform)'==''">Android64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{84BF3DF5-B8B3-457F-BC06-771DB4E60A15}</ProjectGuid>
         <ProjectVersion>20.3</ProjectVersion>
         <TargetedPlatforms>693249</TargetedPlatforms>
+        <ProjectName Condition="'$(ProjectName)'==''">DemoTakePhoto</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>

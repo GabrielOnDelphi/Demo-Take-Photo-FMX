@@ -246,7 +246,7 @@ begin
         end;
 
     // Generate a filename in INTERNAL storage (No permissions needed)
-    SavePath := IncludeTrailingPathDelimiter(GetInternalDataFolder)+ 'MyPhoto.jpg'; // GetNewTimestampFileName(GetInternalDataFolder);
+    SavePath:= Appdata.AppFolder+ 'MyPhoto.jpg'; // GetNewTimestampFileName(GetInternalDataFolder);
 
     // Save
     try
