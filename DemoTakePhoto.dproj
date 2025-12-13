@@ -5,11 +5,10 @@
         <Config Condition="'$(Config)'==''">Debug</Config>
         <FrameworkType>FMX</FrameworkType>
         <MainSource>DemoTakePhoto.dpr</MainSource>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Android64</Platform>
         <ProjectGuid>{84BF3DF5-B8B3-457F-BC06-771DB4E60A15}</ProjectGuid>
         <ProjectVersion>20.3</ProjectVersion>
         <TargetedPlatforms>693249</TargetedPlatforms>
-        <ProjectName Condition="'$(ProjectName)'==''">DemoTakePhoto</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -82,13 +81,15 @@
         <AUP_READ_EXTERNAL_STORAGE>true</AUP_READ_EXTERNAL_STORAGE>
         <AUP_READ_PHONE_STATE>true</AUP_READ_PHONE_STATE>
         <AUP_WRITE_EXTERNAL_STORAGE>true</AUP_WRITE_EXTERNAL_STORAGE>
-        <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
+        <DCC_Alignment>2</DCC_Alignment>
+        <DCC_DUPLICATE_CTOR_DTOR>false</DCC_DUPLICATE_CTOR_DTOR>
+        <DCC_DcuOutput>$(ProductVersion)_$(Platform)_$(Config)</DCC_DcuOutput>
+        <DCC_ExeOutput>$(ProductVersion)_$(Platform)_$(Config)</DCC_ExeOutput>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <DCC_UnitSearchPath>c:\Projects\LightSaber\FrameFMX\;c:\Projects\LightSaber\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <DCC_DUPLICATE_CTOR_DTOR>false</DCC_DUPLICATE_CTOR_DTOR>
+        <DCC_MapFile>3</DCC_MapFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android64)'!=''">
         <Android_AdaptiveIconBackground>$(BDS)\bin\Artwork\Android\FM_AdaptiveIcon_Background.xml</Android_AdaptiveIconBackground>
@@ -247,6 +248,9 @@
         </DCCReference>
         <DCCReference Include="..\..\LightSaber\FrameFMX\LightFmx.Common.CamUtils.pas"/>
         <DCCReference Include="..\..\LightSaber\FrameFMX\LightFmx.Graph.pas"/>
+        <DCCReference Include="..\..\LightSaber\FrameFMX\LightFmx.Common.AppData.pas"/>
+        <DCCReference Include="..\..\LightSaber\LightCore.INIFile.pas"/>
+        <DCCReference Include="..\..\LightSaber\LightCore.AppData.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -445,79 +449,79 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\AndroidManifest.xml" Configuration="Debug" Class="ProjectAndroidManifest">
+                <DeployFile LocalName="37.0_Android64_Debug\AndroidManifest.xml" Configuration="Debug" Class="ProjectAndroidManifest">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\colors-night-v21.xml" Configuration="Debug" Class="Android_ColorsDark">
+                <DeployFile LocalName="37.0_Android64_Debug\colors-night-v21.xml" Configuration="Debug" Class="Android_ColorsDark">
                     <Platform Name="Android64">
                         <RemoteName>colors.xml</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\colors.xml" Configuration="Debug" Class="Android_Colors">
+                <DeployFile LocalName="37.0_Android64_Debug\colors.xml" Configuration="Debug" Class="Android_Colors">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\ic_launcher-v33.xml" Configuration="Debug" Class="Android_AdaptiveIconV33">
+                <DeployFile LocalName="37.0_Android64_Debug\ic_launcher-v33.xml" Configuration="Debug" Class="Android_AdaptiveIconV33">
                     <Platform Name="Android64">
                         <RemoteName>ic_launcher.xml</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\ic_launcher.xml" Configuration="Debug" Class="Android_AdaptiveIcon">
+                <DeployFile LocalName="37.0_Android64_Debug\ic_launcher.xml" Configuration="Debug" Class="Android_AdaptiveIcon">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\libDemoTakePhoto.so" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="37.0_Android64_Debug\libDemoTakePhoto.so" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Android64">
                         <RemoteName>libDemoTakePhoto.so</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\splash_image_def-v21.xml" Configuration="Debug" Class="AndroidSplashImageDefV21">
+                <DeployFile LocalName="37.0_Android64_Debug\splash_image_def-v21.xml" Configuration="Debug" Class="AndroidSplashImageDefV21">
                     <Platform Name="Android64">
                         <RemoteName>splash_image_def.xml</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\splash_image_def.xml" Configuration="Debug" Class="AndroidSplashImageDef">
+                <DeployFile LocalName="37.0_Android64_Debug\splash_image_def.xml" Configuration="Debug" Class="AndroidSplashImageDef">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\strings.xml" Configuration="Debug" Class="Android_Strings">
+                <DeployFile LocalName="37.0_Android64_Debug\strings.xml" Configuration="Debug" Class="Android_Strings">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\styles-v21.xml" Configuration="Debug" Class="AndroidSplashStylesV21">
-                    <Platform Name="Android64">
-                        <RemoteName>styles.xml</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Android64\Debug\styles-v31.xml" Configuration="Debug" Class="AndroidSplashStylesV31">
+                <DeployFile LocalName="37.0_Android64_Debug\styles-v21.xml" Configuration="Debug" Class="AndroidSplashStylesV21">
                     <Platform Name="Android64">
                         <RemoteName>styles.xml</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\styles-v35.xml" Configuration="Debug" Class="AndroidSplashStylesV35">
+                <DeployFile LocalName="37.0_Android64_Debug\styles-v31.xml" Configuration="Debug" Class="AndroidSplashStylesV31">
                     <Platform Name="Android64">
                         <RemoteName>styles.xml</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Android64\Debug\styles.xml" Configuration="Debug" Class="AndroidSplashStyles">
+                <DeployFile LocalName="37.0_Android64_Debug\styles-v35.xml" Configuration="Debug" Class="AndroidSplashStylesV35">
+                    <Platform Name="Android64">
+                        <RemoteName>styles.xml</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="37.0_Android64_Debug\styles.xml" Configuration="Debug" Class="AndroidSplashStyles">
                     <Platform Name="Android64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\DemoTakePhoto.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="37.0_Win32_Debug\DemoTakePhoto.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>DemoTakePhoto.exe</RemoteName>
                         <Overwrite>true</Overwrite>

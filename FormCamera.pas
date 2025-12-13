@@ -17,10 +17,10 @@ USES
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Permissions, System.Actions,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls, FMX.Layouts, FMX.Controls.Presentation,
   FMX.Objects, FMX.Platform, FMX.DialogService, FMX.Media, FMX.MediaLibrary, FMX.ActnList, FMX.StdActns, FMX.MediaLibrary.Actions,
-  System.IOUtils;
+  System.IOUtils, LightFmx.Common.AppData.Form;
 
 TYPE
-  TfrmCamCapture = class(TForm)
+  TfrmCamCapture = class(TLightForm)
     imgPreview: TImage;
     Label1: TLabel;
     Layout1: TLayout;
@@ -52,8 +52,8 @@ TYPE
     procedure TakePhotoAfterPermission_A;
     procedure TakePhotoAfterPermission_B;
     procedure SaveToPublicGallery(BMP: TBitmap);
-    procedure ProcessImage(const Path: string);
   public
+    procedure ProcessImage(const Path: string);   // Unused
   end;
 
 VAR
@@ -63,7 +63,7 @@ VAR
 IMPLEMENTATION {$R *.fmx}
 
 USES 
-  LightFmx.Common.CamUtils, LightFmx.Graph;
+  LightFmx.Common.CamUtils, LightFmx.Graph, LightFmx.Common.AppData;
 
 
 
@@ -223,13 +223,11 @@ end;
 
 
 {-------------------------------------------------------------------------------------------------------------
-   TEST: SAVE LOCAL & RELOAD
-   This satisfies the requirement: "save it in a applications specific folder... Load... show it"
+   TEST: SAVE IMAGE TO LOCAL & RELOAD
 -------------------------------------------------------------------------------------------------------------}
 procedure TfrmCamCapture.btnSaveLocalClick(Sender: TObject);
 var
   TempBMP: TBitmap;
-  SavePath: string;
 begin
   // Get Snapshot
   TempBMP := TBitmap.Create;
@@ -237,7 +235,7 @@ begin
     if CameraComp.Active
     then CameraComp.SampleBufferToBitmap(TempBMP, True)
     else
-      if not imgPreview.Bitmap.IsEmpty
+      if NOT imgPreview.Bitmap.IsEmpty
       then TempBMP.Assign(imgPreview.Bitmap)
       else
         begin
@@ -245,13 +243,9 @@ begin
           Exit;
         end;
 
-    // Generate a filename in INTERNAL storage (No permissions needed)
-    SavePath:= Appdata.AppFolder+ 'MyPhoto.jpg'; // GetNewTimestampFileName(GetInternalDataFolder);
-
     // Save
     try
-      // SaveToFile calls TBitmapCodecManager. The manager looks at the file extension you provided (.jpg).
-      TempBMP.SaveToFile(SavePath);
+      TempBMP.SaveToFile(LocalJpeg);      // SaveToFile calls TBitmapCodecManager. The manager looks at the file extension you provided (.jpg).
     except
       on E: Exception do
       begin
@@ -264,13 +258,10 @@ begin
     imgPreview.Bitmap.Clear(TAlphaColorRec.Null);
     Label1.Text := 'Cleared...';
     Application.ProcessMessages;
-    Sleep(700); // Tiny pause for visual confirmation (optional)
+    Sleep(700);                        // Tiny pause for visual confirmation (optional)
 
-    // Load back from disk
-    // Using your LightFmx.Graph.LoadImage which calls CreateFromFile
-    LightFmx.Graph.LoadImage(SavePath, imgPreview);
-
-    Label1.Text := 'Reloaded: ' + SavePath;
+    Label1.Text := 'Reading from: ' + LocalJpeg;
+    LightFmx.Graph.LoadImage(LocalJpeg, imgPreview);
   finally
     TempBMP.Free;
   end;
@@ -278,22 +269,15 @@ end;
 
 
 procedure TfrmCamCapture.Button1Click(Sender: TObject);
-var
-  SavePath: string;
 begin
-  SavePath := IncludeTrailingPathDelimiter(GetInternalDataFolder)+ 'MyPhoto.jpg'; // GetNewTimestampFileName(GetInternalDataFolder);
-
   // Clear Preview to prove we are reloading
   imgPreview.Bitmap.Clear(TAlphaColorRec.Null);
   Label1.Text := 'Cleared...';
   Application.ProcessMessages;
   Sleep(700); // Tiny pause for visual confirmation (optional)
 
-  // Load back from disk
-  // Using your LightFmx.Graph.LoadImage which calls CreateFromFile
-  LightFmx.Graph.LoadImage(SavePath, imgPreview);
-
-  Label1.Text := 'Loaded: ' + SavePath;
+  Label1.Text := 'Reading from: ' + LocalJpeg;
+  LightFmx.Graph.LoadImage(LocalJpeg, imgPreview);
 end;
 
 end.

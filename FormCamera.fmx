@@ -29,7 +29,7 @@ object frmCamCapture: TfrmCamCapture
     Size.Height = 16.000000000000000000
     Size.PlatformDefault = False
     Text = 'Video camera capture demo'
-    TabOrder = 10
+    TabOrder = 11
   end
   object CameraComp: TCameraComponent
     OnSampleBufferReady = SampleBufferReady
@@ -42,7 +42,7 @@ object frmCamCapture: TfrmCamCapture
     Size.Width = 380.000000000000000000
     Size.Height = 54.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 8
+    TabOrder = 9
     object btnService: TButton
       Align = Left
       CanFocus = False
@@ -111,7 +111,7 @@ object frmCamCapture: TfrmCamCapture
       Size.Height = 46.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 3
-      Text = 'TCameraComponent'
+      Text = 'TCamera'#13#10'Component'
       OnClick = btnComponentClick
     end
     object btnSaveLocal: TButton

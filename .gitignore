@@ -13,3 +13,6 @@ ai.pas
 TakePhotoAction crashes android app and starts again on xiaomi Android 12 - FMX - Delphi-PRAXiS \[en\].url
 *.~dsk
 /Permissions
+/37.0_Android64_Debug
+*.dcu
+/37.0_Win32_Debug
