@@ -9,6 +9,7 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   FormCamera in 'FormCamera.pas' {frmCamCapture},
+  LightCore.CamUtils in '..\..\LightSaber\LightCore.CamUtils.pas',
   LightFmx.Common.CamUtils in '..\..\LightSaber\FrameFMX\LightFmx.Common.CamUtils.pas',
   LightFmx.Graph in '..\..\LightSaber\FrameFMX\LightFmx.Graph.pas',
   LightFmx.Common.AppData in '..\..\LightSaber\FrameFMX\LightFmx.Common.AppData.pas',

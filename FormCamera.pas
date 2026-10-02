@@ -63,7 +63,7 @@ VAR
 IMPLEMENTATION {$R *.fmx}
 
 USES 
-  LightFmx.Common.CamUtils, LightFmx.Graph, LightFmx.Common.AppData;
+  LightCore.CamUtils, LightFmx.Common.CamUtils, LightFmx.Graph, LightFmx.Common.AppData;
 
 
 

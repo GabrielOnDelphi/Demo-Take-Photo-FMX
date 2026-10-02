@@ -246,6 +246,7 @@
             <Form>frmCamCapture</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="..\..\LightSaber\LightCore.CamUtils.pas"/>
         <DCCReference Include="..\..\LightSaber\FrameFMX\LightFmx.Common.CamUtils.pas"/>
         <DCCReference Include="..\..\LightSaber\FrameFMX\LightFmx.Graph.pas"/>
         <DCCReference Include="..\..\LightSaber\FrameFMX\LightFmx.Common.AppData.pas"/>
