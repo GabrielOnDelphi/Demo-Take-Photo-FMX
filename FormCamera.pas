@@ -63,7 +63,14 @@ VAR
 IMPLEMENTATION {$R *.fmx}
 
 USES 
-  LightCore.CamUtils, LightFmx.Common.CamUtils, LightFmx.Graph, LightFmx.Common.AppData;
+  LightCore.CamUtils, LightCore.IO, LightCore.AppData, LightFmx.Common.CamUtils, LightFmx.Common.Graph, LightFmx.Common.AppData;
+
+
+{ The snapshot file in the app's own folder (no permissions needed). TBitmap.SaveToFile picks the JPEG codec from the .jpg extension. }
+function LocalJpeg: string;
+begin
+  Result:= TAppDataCore.AppFolder+ 'MyPhoto.jpg';
+end;
 
 
 
@@ -82,7 +89,7 @@ begin
   if not Path.IsEmpty then 
   begin
     // Use the LoadImage utility which handles errors safely
-    LightFmx.Graph.LoadImage(Path, imgPreview);
+    LightFmx.Common.Graph.LoadImage(Path, imgPreview);
     Label1.Text:= 'Loaded from: ' + Path;
   end;
 end;
@@ -200,7 +207,7 @@ begin
     AddToPhotosAlbum(BMP);
     Label1.Text:= 'Saved to Gallery';
   {$ELSE}
-    var Fn := GetNewTimestampFileName(GetPublicPicturesFolder);
+    var Fn := GetTimestampFileName(GetPublicPicturesFolder, '', '.png');
     BMP.SaveToFile(Fn);
     Label1.Text:= 'Saved to: ' + Fn;
   {$ENDIF}
@@ -261,7 +268,7 @@ begin
     Sleep(700);                        // Tiny pause for visual confirmation (optional)
 
     Label1.Text := 'Reading from: ' + LocalJpeg;
-    LightFmx.Graph.LoadImage(LocalJpeg, imgPreview);
+    LightFmx.Common.Graph.LoadImage(LocalJpeg, imgPreview);
   finally
     TempBMP.Free;
   end;
@@ -277,7 +284,7 @@ begin
   Sleep(700); // Tiny pause for visual confirmation (optional)
 
   Label1.Text := 'Reading from: ' + LocalJpeg;
-  LightFmx.Graph.LoadImage(LocalJpeg, imgPreview);
+  LightFmx.Common.Graph.LoadImage(LocalJpeg, imgPreview);
 end;
 
 end.
